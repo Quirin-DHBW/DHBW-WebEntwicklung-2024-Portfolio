@@ -1,0 +1,173 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+    background: #333;
+}
+
+header {
+    background: #036357;
+    color: #fff;
+    padding: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    background: #0062ff;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#toggle-mode-btn {
+    background: #c4c4c4;
+    color: #000;
+    font-weight: bolder;
+    width: 40px;
+    height: 40px;
+    padding: 0px 0px;
+}
+
+button:hover {
+    background: #006eb3;
+}
+
+#columns-container {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    height: calc(100vh - 60px);
+    overflow-x: auto;
+    transform: rotateX(180deg);
+}
+
+.column {
+    background: #535353;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    width: 300px;
+    min-width: 300px;
+    max-height: 100%;
+    overflow-y: auto;
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transform: rotateX(180deg);
+}
+
+.column-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.card {
+    background: black;
+    color: white;
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+    height: 100px;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    cursor: move;
+    margin-bottom: 5px;
+    z-index: 1;
+}
+
+
+.card textarea {
+    background: transparent;
+    border: none;
+    color: white;
+    width: 100%;
+    height: 100%;
+    resize: none;
+    overflow-y: auto;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+
+.card .delete-btn-card {
+    position: relative;
+    top: -35px;
+    right: -5px;
+    width: 20px;
+    height: 20px;
+    background: red;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.card:hover .delete-btn-card {
+    opacity: 1;
+}
+
+
+.column .delete-btn-col {
+    position: relative;
+    top: -35px;
+    right: -260px;
+    width: 20px;
+    height: 20px;
+    background: red;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.column:hover .delete-btn-col {
+    opacity: 1;
+}
+
+body.light-mode {
+    background: #fff;
+    color: #000;
+}
+
+body.light-mode .column {
+    background: #fff;
+    border: 1px solid #ccc;
+}
+
+body.light-mode .card {
+    background: #eee;
+    color: #000;
+}
+
+body.light-mode .card textarea {
+    color: black;
+}
+
+body.light-mode #toggle-mode-btn {
+    background: #000;
+    color: #c4c4c4;
+}
