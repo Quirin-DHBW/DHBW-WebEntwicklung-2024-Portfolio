@@ -234,6 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
                 positionCards(column);
             });
+            cardCount++;
             console.log("DATA LOADED SUCCESSFULLY")
         }
         else {
