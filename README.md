@@ -21,7 +21,17 @@ This WebApplication was written as a hand-in Project for the DHBW, and is an imm
 
 This section touches on the architecture of the JavaScript Code, and why it was chosen that way.
 
-TEXT HERE
+Columns contain Cards, and the buttons create new ones with appropriate ID values. These id values allow for cards to then be targeted and moved with Javascript.
+
+The board state is saved in localStorage to allow for persistence.
+
+
+---
+---
+
+## AAAAAAAAA
+
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 
 
 ---
