@@ -9,56 +9,109 @@ https://quirin-dhbw.github.io/DHBW-WebEntwicklung-2024-Portfolio/
 ---
 ---
 
-## "Installation"
-
-- Have a modern Browser. Open the `index.html`.
-
+This project is a web-based note-keeping application inspired by [Trello](https://trello.com/), built as part of a submission for a DHBW Web Development project. It allows users to create draggable columns and cards, track tasks, and save the board’s state persistently using `localStorage`. This app also features a light/dark mode toggle, simulating modern web-based productivity tools.
 
 ---
----
 
-## Concept
-
-This WebApplication was written as a hand-in Project for the DHBW, and is an immitation of the TODO-List website [Trello](https://trello.com/).
-
-
----
----
-
-## Architecture
-
-This section touches on the architecture of the JavaScript Code, and why it was chosen that way.
-
-Columns contain Cards, and the buttons create new ones with appropriate ID values. These id values allow for cards to then be targeted and moved with Javascript.
-
-The board state is saved in localStorage to allow for persistence.
-
+## **Table of Contents**
+1. [Installation](#installation)
+2. [Concept](#concept)
+3. [Architecture](#architecture)
+4. [Detailed Functionality](#detailed-functionality)
+   - [Card and Column Creation](#card-and-column-creation)
+   - [Saving and Loading State](#saving-and-loading-state)
+   - [Drag and Drop Functionality](#drag-and-drop-functionality)
+   - [Light/Dark Mode Toggle](#light-dark-mode-toggle)
+   - [Reset Functionality](#reset-functionality)
+   - [Card Positioning (Gravity)](#card-positioning-gravity)
+6. [Technologies Used](#technologies-used)
 
 ---
+
+## **Installation**
+
+To run this project, you don't need any special installations or setups. Follow these steps:
+
+1. Clone or download the project repository.
+2. Open `index.html` in any modern web browser (Chrome, Firefox, Edge, etc.).
+3. No additional installations, frameworks, or packages are required, as everything runs client-side.
+
 ---
 
-## Function Functionality
+## **Concept**
 
-There's a small handful of functions, which create Columns and Cards, can Save the data, Load the data, and Delete Columns and Cards.
-Additionally there are some functions to enable "snapping" of Cards to Columns, as well as ensuring they are pleasant to move by "pushing" other cards out of the way, and having a sort of "gravity" that keeps cards aligned with the top even if a Card in the middle of a Column is removed or moved.
+The goal of this project was to simulate a task management tool akin to Trello. Users can create columns, fill them with cards (notes), drag and drop the cards between columns, and delete items when no longer needed. The application persists the state in the browser’s `localStorage`, so even if the page is refreshed or closed, the board state remains.
 
-#### createNewCard and createNewColumn
+---
 
-These two functions allow for the creation of new Columns and Cards. Columns are div objects which are put into the `columnContainer` div in the html, and each have an ID to manage their position and deletion/loading. The Column additionally contains a text field to hold it's Title, allowing the user to rename the Column. On hover a delete button also appears in the corner, allowing for the Column to be removed as well.\
-Similarly Cards are created as div objects inside of a Column, also each with their own Card ID for moving, deletion, and loading. A Card also comes with a deletion button, as well as a Textbox for keeping the actual notes.
+## **Architecture**
 
-#### Saving and Deletion
+The application follows a simple structure consisting of HTML, CSS, and JavaScript. The key architecture choices include:
 
-Whenever a Column is Created, Renamed, or Deleted, or a Card is Created, Deleted, Edited, or Moved the program saves the new board state to `localStorage`. When first loading the page the presence of a save-file is detected, in which case that file is loaded. This iteratively reads the columns and their cards, and places them appropriately.
+- **Columns and Cards**: 
+   - Cards are nested within columns, allowing for drag-and-drop functionality. 
+   - Each column and card has a unique ID to help track movement and state changes.
+   
+- **Persistence**: 
+   - Board state (columns and cards) is saved in `localStorage`, enabling data persistence across page reloads.
+   
+- **Event Listeners**:
+   - `DOMContentLoaded` ensures that event listeners for buttons (new column, new card, reset, toggle mode) are set up when the DOM is ready.
+   
+- **Drag-and-Drop Logic**:
+   - Cards can be dragged between columns. The application recalculates their positioning within the columns to ensure they are always aligned properly. 
+   
+- **Styling**: 
+   - CSS is used to style the layout and support dark and light modes.
 
-#### Dark Mode
+---
 
-The only correct option. A button toggles the addition of a "light-mode" css tag, which overrides only the dark-colors with eye-burning ones instead. As this additional class only overrides the color, all other formating remains intakt. Hitting the toggle button again simply removes this class from the objects, making them return to the one and only truth: dark mode.
+## **Detailed Functionality**
 
-#### Faux Gravity
+### **Card and Column Creation**
 
-When a Card is moved, created, or removed, the offset of all cards in that column are recalculated to be displayed properly. This allows for the Cards to align themselves vertically with the top of each column, and adjust to Cards moving, being added, or removed, properly.
+- **createNewCard()** and **createNewColumn()** functions are responsible for dynamically generating new cards and columns.
+  - **Columns**: New columns are created with a title that can be edited inline (`contenteditable`). Each column is represented as a `div` with a delete button that appears on hover.
+  - **Cards**: Cards are also `div` elements with a draggable property. Each card contains a `textarea` where the user can type notes. Like columns, cards have a delete button for removal.
 
+### **Saving and Loading State**
+
+- **saveStateToLocalStorage()**: Every action (creating, editing, deleting columns/cards) triggers the function that serializes the current board state and saves it to `localStorage`. The state is saved as a JSON object representing each column and its associated cards.
+  
+- **importData()**: When the page loads, it checks `localStorage` for any previously saved board state. If a saved state exists, it dynamically rebuilds the columns and cards based on the stored data.
+
+### **Drag and Drop Functionality**
+
+- The drag-and-drop mechanism allows for moving cards between columns.
+  - **handleDragStart()**: Initiates dragging by setting the card’s ID in the `dataTransfer` object.
+  - **handleDrop()**: Handles dropping the card into a new column and recalculating the card's position.
+  - **positionCards()**: After cards are dragged and dropped, this function repositions them to maintain proper vertical alignment within the column.
+
+### **Light/Dark Mode Toggle**
+
+- The light/dark mode functionality is controlled via a button in the header.
+  - **toggleModeBtn** toggles the `light-mode` class on the `body` element, switching between dark (default) and light modes.
+  - The mode is purely cosmetic, changing background colors and text color across the interface without altering functionality.
+
+### **Reset Functionality**
+
+- **resetBoard()**: Clears all the columns and cards from the board and resets the application state.
+  - The reset also updates the `localStorage` to reflect the new, empty board.
+
+### **Card Positioning (Gravity)**
+
+- When cards are added, removed, or moved between columns, the application recalculates their positions so that they are evenly spaced and aligned with the top of the column.
+  - This prevents gaps or overlaps between cards, creating a more seamless user experience.
+
+
+## **Technologies Used**
+
+- **HTML5**: Structuring the layout of the application.
+- **CSS3**: Styling and visual customization, including responsive design and theming (light/dark mode).
+- **JavaScript (ES6)**: 
+   - DOM manipulation for dynamic creation and updating of columns/cards.
+   - Event handling for drag-and-drop, button clicks, and localStorage operations.
+   - Persistent state management using `localStorage`.
 
 ---
 ---
